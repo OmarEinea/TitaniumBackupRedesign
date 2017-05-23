@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.ArrayList;
 
@@ -13,6 +16,7 @@ import java.util.ArrayList;
 
 class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppHolder> {
     private ArrayList<AppInfo> mApps;
+    private AppHolder mPreviousHolder;
 
     AppsAdapter(ArrayList<AppInfo> apps) {
         mApps = apps;
@@ -25,12 +29,22 @@ class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppHolder> {
     }
 
     @Override
-    public void onBindViewHolder(AppHolder holder, int position) {
+    public void onBindViewHolder(final AppHolder holder, int position) {
         AppInfo app = mApps.get(position);
 
         holder.mName.setText(app.name);
         holder.mInfo.setText(app.info);
         holder.mIcon.setImageDrawable(app.icon);
+        holder.mExpandable.collapse();
+        holder.mExpand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mPreviousHolder != null && mPreviousHolder != holder)
+                    mPreviousHolder.mExpandable.collapse();
+                holder.mExpandable.toggle();
+                mPreviousHolder = holder;
+            }
+        });
     }
 
     @Override
@@ -41,12 +55,16 @@ class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppHolder> {
     class AppHolder extends RecyclerView.ViewHolder {
         private ImageView mIcon;
         private TextView mName, mInfo;
+        private ExpandableLayout mExpandable;
+        private LinearLayout mExpand;
 
         AppHolder(View view) {
             super(view);
             mIcon = (ImageView) view.findViewById(R.id.app_icon);
             mName = (TextView) view.findViewById(R.id.app_name);
             mInfo = (TextView) view.findViewById(R.id.app_info);
+            mExpandable = (ExpandableLayout) view.findViewById(R.id.expandable);
+            mExpand = (LinearLayout) view.findViewById(R.id.expand_view);
         }
     }
 }
