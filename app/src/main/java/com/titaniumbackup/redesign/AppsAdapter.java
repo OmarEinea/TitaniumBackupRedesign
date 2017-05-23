@@ -3,6 +3,7 @@ package com.titaniumbackup.redesign;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,10 +51,23 @@ class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppHolder> {
                 mPreviousHolder = holder;
             }
         });
+        holder.mBackup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.snack(v, "Backing Up " + app.name + "...", Snackbar.LENGTH_LONG);
+            }
+        });
+        holder.mRestore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.snack(v, "Restoring " + app.name + "...", Snackbar.LENGTH_LONG);
+            }
+        });
         holder.mFreeze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 app.enabled = setItemColors(!app.enabled, holder);
+                MainActivity.snack(v, app.name + " was " + (app.enabled ? "Unf" : "F") + "rozen Successfully", Snackbar.LENGTH_SHORT);
             }
         });
         holder.mUninstall.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +75,7 @@ class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppHolder> {
             public void onClick(View v) {
                 mApps.remove(holder.getAdapterPosition());
                 AppsAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
+                MainActivity.snack(v, app.name + " was Uninstalled Successfully", Snackbar.LENGTH_SHORT);
             }
         });
     }
@@ -91,7 +106,7 @@ class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppHolder> {
         private ImageView mIcon;
         private TextView mName, mInfo;
         private ExpandableLayout mExpandable;
-        private LinearLayout mExpand, mUninstall, mFreeze;
+        private LinearLayout mExpand, mBackup, mRestore, mUninstall, mFreeze;
 
         AppHolder(View view) {
             super(view);
@@ -100,6 +115,8 @@ class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppHolder> {
             mInfo = (TextView) view.findViewById(R.id.app_info);
             mExpandable = (ExpandableLayout) view.findViewById(R.id.expandable);
             mExpand = (LinearLayout) view.findViewById(R.id.expand_view);
+            mBackup = (LinearLayout) view.findViewById(R.id.backup_btn);
+            mRestore = (LinearLayout) view.findViewById(R.id.restore_btn);
             mUninstall = (LinearLayout) view.findViewById(R.id.uninstall_btn);
             mFreeze = (LinearLayout) view.findViewById(R.id.freeze_btn);
         }

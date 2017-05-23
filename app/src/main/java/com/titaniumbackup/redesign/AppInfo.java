@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable;
 class AppInfo {
     String name, info;
     Drawable icon;
-    Boolean enabled = true;
+    boolean enabled = true;
 
     AppInfo(String name, String info, Drawable icon) {
         this.name = name;

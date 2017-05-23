@@ -68,6 +68,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/backup_btn"
                 android:padding="16dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
@@ -77,8 +78,8 @@
 
                 <ImageView
                     android:src="@drawable/ic_backup"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_gravity="center"/>
 
                 <TextView
@@ -94,6 +95,7 @@
                 android:layout_height="match_parent"/>
 
             <LinearLayout
+                android:id="@+id/restore_btn"
                 android:padding="16dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
@@ -103,8 +105,8 @@
 
                 <ImageView
                     android:src="@drawable/ic_restore"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_gravity="center"/>
 
                 <TextView
@@ -130,8 +132,8 @@
 
                 <ImageView
                     android:src="@drawable/ic_freeze"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_gravity="center"/>
 
                 <TextView
@@ -157,8 +159,8 @@
 
                 <ImageView
                     android:src="@drawable/ic_uninstall"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_gravity="center"/>
 
                 <TextView
