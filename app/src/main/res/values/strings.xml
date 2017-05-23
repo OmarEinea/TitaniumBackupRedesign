@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Titanium Backup Redesign</string>
+    <string name="app_name">Titanium Backup</string>
+    <string name="action_settings">Settings</string>
 </resources>
