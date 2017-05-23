@@ -1,5 +1,8 @@
 package com.titaniumbackup.redesign;
 
+import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,12 +33,14 @@ class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppHolder> {
 
     @Override
     public void onBindViewHolder(final AppHolder holder, int position) {
-        AppInfo app = mApps.get(position);
+        final AppInfo app = mApps.get(position);
 
         holder.mName.setText(app.name);
         holder.mInfo.setText(app.info);
         holder.mIcon.setImageDrawable(app.icon);
         holder.mExpandable.collapse();
+        setItemColors(app.enabled, holder);
+
         holder.mExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,6 +50,36 @@ class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppHolder> {
                 mPreviousHolder = holder;
             }
         });
+        holder.mFreeze.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                app.enabled = setItemColors(!app.enabled, holder);
+            }
+        });
+        holder.mUninstall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mApps.remove(holder.getAdapterPosition());
+                AppsAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
+            }
+        });
+    }
+
+    private Boolean setItemColors(Boolean status, AppHolder holder) {
+        if(status) {
+            holder.mIcon.setColorFilter(null);
+            holder.mIcon.setAlpha(255);
+            holder.mName.setTextColor(Color.BLACK);
+            holder.mInfo.setTextColor(Color.BLACK);
+        } else {
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.setSaturation(0);
+            holder.mIcon.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+            holder.mIcon.setAlpha(200);
+            holder.mName.setTextColor(Color.GRAY);
+            holder.mInfo.setTextColor(Color.GRAY);
+        }
+        return status;
     }
 
     @Override
@@ -56,7 +91,7 @@ class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppHolder> {
         private ImageView mIcon;
         private TextView mName, mInfo;
         private ExpandableLayout mExpandable;
-        private LinearLayout mExpand;
+        private LinearLayout mExpand, mUninstall, mFreeze;
 
         AppHolder(View view) {
             super(view);
@@ -65,6 +100,8 @@ class AppsAdapter extends RecyclerView.Adapter<AppsAdapter.AppHolder> {
             mInfo = (TextView) view.findViewById(R.id.app_info);
             mExpandable = (ExpandableLayout) view.findViewById(R.id.expandable);
             mExpand = (LinearLayout) view.findViewById(R.id.expand_view);
+            mUninstall = (LinearLayout) view.findViewById(R.id.uninstall_btn);
+            mFreeze = (LinearLayout) view.findViewById(R.id.freeze_btn);
         }
     }
 }
